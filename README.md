@@ -39,6 +39,8 @@ path：/pkg/server/server.go
 3. 通知systemd已启动  
 
 #### loadConfiguration  
+path：/pkg/server/server.go  
+  
 grafana支持的配置项  
 注意： 
 grafana采用的包ini中Must[type]方法需值类型不匹配时才会采用默认值  
@@ -49,6 +51,7 @@ grafana采用的包ini中Must[type]方法需值类型不匹配时才会采用默
 CookieSecure = true  √    
 
 #### auth初始化  
+path：/pkg/server/server.go  
 login.Init ==>  bus注册反射方法  
 grafana内部核心调用机制，通过bus模块反射  
   
@@ -56,6 +59,7 @@ NewOAuthService：
 根据配置的oauth服务，初始化一个OAuthService  
   
 #### services init  
+path：/pkg/server/server.go  
 service模块会在各自的init中调用RegisterService注册自身模块  
 并对以下interface做实现   
 Service：  Init初始化  
@@ -64,10 +68,24 @@ BackgroundService:  后台服务将被调用run
   
 #### BackgroundService  
   
-HTTPServer
+HTTPServer  
   grafana web采用macaron框架  
   注意: grafana对static资源并未支持安全请求头等安全设置，且macaron自带302重定向机制,应审视其安全问题  
   https://github.com/go-macaron/macaron/issues/198  
+  handlers:  
+  middleware.Logger()  
+  middleware.Gziper()  
+  middleware.Recovery()  
+  httpstatic.Static()  
+  middleware.AddDefaultResponseHeaders()    
+  macaron.Renderer()  
+  hs.healthzHandler  
+  hs.apiHealthHandler  
+  hs.metricsEndpoint  
+  middleware.GetContextHandler()  
+  middleware.OrgRedirect()  
+  middleware.ValidateHostHeader()
+  middleware.HandleNoCacheHeader()
   
 RenderingService  
   
@@ -95,3 +113,6 @@ ProvisioningService
   
 ### 业务流程  
 #### 登录  
+
+
+
