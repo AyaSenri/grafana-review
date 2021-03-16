@@ -62,6 +62,33 @@ Service：  Init初始化
 CanBeDisabled:  根据配置判断isDisabled  
 BackgroundService:  后台服务将被调用run   
   
+#### BackgroundService  
+  
+HTTPServer
+  
+RenderingService  
+  
+manager  
+  
+PluginManager  
+  
+CleanUpService  
+  
+RemoteCache  
+  
+InternalMetricsService  
+  
+AlertEngine   
+  
+UserAuthTokenService  
+  
+UsageStatsService  
+  
+TracingService  
+  
+NotificationService  
+  
+ProvisioningService  
   
 ### 业务流程  
 #### 登录  
