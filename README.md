@@ -29,13 +29,13 @@ path：/pkg/cmd/grafana-server/main.go
 path：/pkg/server/server.go  
 
 1. init  
-  锁和初始化判断，频繁重启引发问题
-  loadConfiguration加载配置
-  metrics.SetEnvironmentInformation注册一个prometheus指标: grafana状态
-  登录模块初始化，包括前端login.Init和oauth登录social.NewOAuthService
-  初始化所有service
+  锁和初始化判断，频繁重启引发问题  
+  loadConfiguration加载配置  
+  metrics.SetEnvironmentInformation注册一个prometheus指标: grafana状态  
+  auth初始化，包括login.Init和oauth登录social.NewOAuthService  
+  all services init  
    
-2. 启动注册的service    
+2. run background services  
 3. 通知systemd已启动  
 
 #### loadConfiguration  
@@ -44,11 +44,24 @@ grafana支持的配置项
 grafana采用的包ini中Must[type]方法需值类型不匹配时才会采用默认值  
 因此当需要硬编码设置固定配置的情况请直接设置值  
 例：  
-硬编码级将cookie_secure默认打开的情形，
-.MustBool(true)      ×   
-CookieSecure = true  √  
+硬编码级将cookie_secure默认打开的情形  
+.MustBool(true)      ×    
+CookieSecure = true  √    
 
-
-
+#### auth初始化  
+login.Init ==>  bus注册反射方法  
+grafana内部核心调用机制，通过bus模块反射  
+  
+NewOAuthService：  
+根据配置的oauth服务，初始化一个OAuthService  
+  
+#### services init  
+service模块会在各自的init中调用RegisterService注册自身模块  
+并对以下interface做实现   
+Service：  Init初始化  
+CanBeDisabled:  根据配置判断isDisabled  
+BackgroundService:  后台服务将被调用run   
+  
+  
 ### 业务流程  
 #### 登录  
