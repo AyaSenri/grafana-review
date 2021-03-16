@@ -38,5 +38,17 @@ path：/pkg/server/server.go
 2. 启动注册的service    
 3. 通知systemd已启动  
 
+#### loadConfiguration  
+grafana支持的配置项  
+注意： 
+grafana采用的包ini中Must[type]方法需值类型不匹配时才会采用默认值  
+因此当需要硬编码设置固定配置的情况请直接设置值  
+例：  
+硬编码级将cookie_secure默认打开的情形，
+.MustBool(true)      ×   
+CookieSecure = true  √  
+
+
+
 ### 业务流程  
 #### 登录  
