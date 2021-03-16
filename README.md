@@ -65,6 +65,9 @@ BackgroundService:  后台服务将被调用run
 #### BackgroundService  
   
 HTTPServer
+  grafana web采用macaron框架  
+  注意: grafana对static资源并未支持安全请求头等安全设置，且macaron自带302重定向机制,应审视其安全问题  
+  https://github.com/go-macaron/macaron/issues/198  
   
 RenderingService  
   
